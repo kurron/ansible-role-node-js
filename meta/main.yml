@@ -1,6 +1,6 @@
 galaxy_info:
   author: Ronald D. Kurr
-  description: Plex media server.
+  description: Node.js.
   company: jvmguy.com
 
   license: Apache 2
@@ -31,8 +31,8 @@ galaxy_info:
     - xenial
 
   galaxy_tags:
-      - plex
-      - media-server
+      - node.js
+      - npm
 
 dependencies:
     - { role: kurron.base }

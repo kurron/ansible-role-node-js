@@ -1,4 +1,4 @@
 ---
 - hosts: remote
   roles:
-  - role: ../../ansible-role-plex
+  - role: ../../ansible-role-node-js

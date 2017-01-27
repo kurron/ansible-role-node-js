@@ -1,7 +1,7 @@
 Role Name
 =========
 
-Plex media server.
+Node.js.
 
 Requirements
 ------------
@@ -11,7 +11,7 @@ TODO
 Role Variables
 --------------
 
-None.
+TODO
 
 Dependencies
 ------------
@@ -24,7 +24,7 @@ Example Playbook
 ```
 - hosts: servers
   roles:
-      - { role: kurron.plex }
+      - { role: kurron.node.js }
 ```
 
 License

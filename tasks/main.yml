@@ -1,36 +1,32 @@
 ---
-- name: Install Plex
+- name: Download Node.js LTS Installation Script
+  become: no
+  get_url:
+      url: "https://deb.nodesource.com/setup_6.x"
+      dest: "{{ansible_user_dir}}/{{base_download_directory}}/setup_6.x.sh"
+      mode: 0554
+  when: (ansible_distribution == "Ubuntu") and (node_install_lts)
+
+- name: Install Node.js LTS
+  become: yes
+  shell: "{{ansible_user_dir}}/{{base_download_directory}}/setup_6.x.sh"
+  args:
+      creates: /usr/bin/node
+  when: (ansible_distribution == "Ubuntu") and (node_install_lts)
+
+- name: Install Node.js And Tools
   become: yes
   apt:
-      deb: "https://downloads.plex.tv/plex-media-server/{{plex_version}}/plexmediaserver_{{plex_version}}_amd64.deb"
+      name: "{{ item }}"
       state: present
-  when: (ansible_distribution == "Ubuntu") and (plex_install)
+  items:
+      - nodejs
+      - build-essential
+  when: (ansible_distribution == "Ubuntu") and (node_install_lts)
 
-- name: Install Plex
-  become: yes
-  dnf:
-      name: "https://downloads.plex.tv/plex-media-server/{{plex_version}}/plexmediaserver-{{plex_version}}.x86_64.rpm"
-      state: present
-  when: (ansible_distribution == "Fedora") and (plex_install)
-
-- name: Use Syslog
-  become: yes
-  lineinfile:
-      dest: /etc/sysconfig/PlexMediaServer
-      line: "export PLEX_MEDIA_SERVER_USE_SYSLOG=true"
-  when: (ansible_distribution == "Fedora") and (plex_install)
-
-- name: Use Syslog
-  become: yes
-  lineinfile:
-      dest: /etc/default/plexmediaserver
-      line: "export PLEX_MEDIA_SERVER_USE_SYSLOG=true"
-  when: (ansible_distribution == "Ubuntu") and (plex_install)
-
-- name: Start Plex
-  systemd:
-      name: plexmediaserver
-      state: started
-      enabled: yes
-
-- meta: flush_handlers
+- name: Test Installation
+  become: no
+  shell: "{{ item }}"
+  items:
+      - "node --version"
+      - "npm --version"
