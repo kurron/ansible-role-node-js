@@ -1,0 +1,36 @@
+---
+- name: Install Plex
+  become: yes
+  apt:
+      deb: "https://downloads.plex.tv/plex-media-server/{{plex_version}}/plexmediaserver_{{plex_version}}_amd64.deb"
+      state: present
+  when: (ansible_distribution == "Ubuntu") and (plex_install)
+
+- name: Install Plex
+  become: yes
+  dnf:
+      name: "https://downloads.plex.tv/plex-media-server/{{plex_version}}/plexmediaserver-{{plex_version}}.x86_64.rpm"
+      state: present
+  when: (ansible_distribution == "Fedora") and (plex_install)
+
+- name: Use Syslog
+  become: yes
+  lineinfile:
+      dest: /etc/sysconfig/PlexMediaServer
+      line: "export PLEX_MEDIA_SERVER_USE_SYSLOG=true"
+  when: (ansible_distribution == "Fedora") and (plex_install)
+
+- name: Use Syslog
+  become: yes
+  lineinfile:
+      dest: /etc/default/plexmediaserver
+      line: "export PLEX_MEDIA_SERVER_USE_SYSLOG=true"
+  when: (ansible_distribution == "Ubuntu") and (plex_install)
+
+- name: Start Plex
+  systemd:
+      name: plexmediaserver
+      state: started
+      enabled: yes
+
+- meta: flush_handlers

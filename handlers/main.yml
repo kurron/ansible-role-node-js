@@ -1,0 +1,5 @@
+---
+- name: restart-plex
+  systemd:
+      name: plexmediaserver
+      state: restarted
