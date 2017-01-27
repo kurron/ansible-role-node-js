@@ -11,7 +11,9 @@ TODO
 Role Variables
 --------------
 
-TODO
+* node_install: true
+* node_install_lts: true
+* node_install_current: false
 
 Dependencies
 ------------
@@ -24,7 +26,7 @@ Example Playbook
 ```
 - hosts: servers
   roles:
-      - { role: kurron.node.js }
+      - { role: kurron.node.js, node_install_lts: false, node_install_current: true }
 ```
 
 License
