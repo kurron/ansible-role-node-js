@@ -22,12 +22,20 @@
       mode: 0554
   when: (ansible_distribution == "Ubuntu") and (node_install_current)
 
+- name: Download Node.js Current Installation Script
+  become: no
+  get_url:
+      url: "https://rpm.nodesource.com/setup_7.x"
+      dest: "{{ansible_user_dir}}/{{base_download_directory}}/setup_7.x.sh"
+      mode: 0554
+  when: (ansible_distribution == "RedHat") and (node_install_current)
+
 - name: Install Node.js Current
   become: yes
   shell: "{{ansible_user_dir}}/{{base_download_directory}}/setup_7.x.sh"
   args:
       creates: /usr/bin/node
-  when: (ansible_distribution == "Ubuntu") and (node_install_current)
+  when: node_install_current
 
 - name: Install Node.js And Tools
   become: yes
@@ -38,6 +46,16 @@
       - nodejs
       - build-essential
   when: (ansible_distribution == "Ubuntu") and (node_install)
+
+- name: Install Node.js And Tools
+  become: yes
+  yum:
+      name: "{{ item }}"
+      state: present
+  items:
+      - nodejs
+      - "@Development Tools"
+  when: (ansible_distribution == "RedHat") and (node_install)
 
 - name: Test Installation
   become: no
