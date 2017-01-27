@@ -1,4 +1,4 @@
 ---
 node_install: true
-node_install_lts: false
-node_install_current: true
+node_install_lts: true
+node_install_current: false

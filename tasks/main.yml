@@ -7,12 +7,20 @@
       mode: 0554
   when: (ansible_distribution == "Ubuntu") and (node_install_lts)
 
+- name: Download Node.js LTS Installation Script
+  become: no
+  get_url:
+      url: "https://rpm.nodesource.com/setup_6.x"
+      dest: "{{ansible_user_dir}}/{{base_download_directory}}/setup_6.x.sh"
+      mode: 0554
+  when: (ansible_distribution == "RedHat") and (node_install_lts)
+
 - name: Install Node.js LTS
   become: yes
   shell: "{{ansible_user_dir}}/{{base_download_directory}}/setup_6.x.sh"
   args:
       creates: /usr/bin/node
-  when: (ansible_distribution == "Ubuntu") and (node_install_lts)
+  when: node_install_lts
 
 - name: Download Node.js Current Installation Script
   become: no
