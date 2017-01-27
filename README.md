@@ -26,7 +26,7 @@ Example Playbook
 ```
 - hosts: servers
   roles:
-      - { role: kurron.node.js, node_install_lts: false, node_install_current: true }
+      - { role: kurron.node-js, node_install_lts: false, node_install_current: true }
 ```
 
 License
