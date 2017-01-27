@@ -14,6 +14,21 @@
       creates: /usr/bin/node
   when: (ansible_distribution == "Ubuntu") and (node_install_lts)
 
+- name: Download Node.js Current Installation Script
+  become: no
+  get_url:
+      url: "https://deb.nodesource.com/setup_7.x"
+      dest: "{{ansible_user_dir}}/{{base_download_directory}}/setup_7.x.sh"
+      mode: 0554
+  when: (ansible_distribution == "Ubuntu") and (node_install_current)
+
+- name: Install Node.js Current
+  become: yes
+  shell: "{{ansible_user_dir}}/{{base_download_directory}}/setup_7.x.sh"
+  args:
+      creates: /usr/bin/node
+  when: (ansible_distribution == "Ubuntu") and (node_install_current)
+
 - name: Install Node.js And Tools
   become: yes
   apt:
@@ -22,7 +37,7 @@
   items:
       - nodejs
       - build-essential
-  when: (ansible_distribution == "Ubuntu") and (node_install_lts)
+  when: (ansible_distribution == "Ubuntu") and (node_install)
 
 - name: Test Installation
   become: no
