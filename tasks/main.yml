@@ -50,7 +50,7 @@
   apt:
       name: "{{ item }}"
       state: present
-  items:
+  with_items:
       - nodejs
       - build-essential
   when: (ansible_distribution == "Ubuntu") and (node_install)
@@ -60,7 +60,7 @@
   yum:
       name: "{{ item }}"
       state: present
-  items:
+  with_items:
       - nodejs
       - "@Development Tools"
   when: (ansible_distribution == "RedHat") and (node_install)
@@ -68,6 +68,6 @@
 - name: Test Installation
   become: no
   shell: "{{ item }}"
-  items:
+  with_items:
       - "node --version"
       - "npm --version"
