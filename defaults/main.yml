@@ -1,4 +1,6 @@
 ---
 node_install: true
 node_install_lts: true
+node_lts_version: 8
 node_install_current: false
+node_current_version: 10 

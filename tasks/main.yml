@@ -2,22 +2,22 @@
 - name: Download Node.js LTS Installation Script
   become: no
   get_url:
-      url: "https://deb.nodesource.com/setup_8.x"
-      dest: "{{ansible_user_dir}}/{{base_download_directory}}/setup_8.x.sh"
+      url: "https://deb.nodesource.com/setup_{{node_lts_version}}.x"
+      dest: "{{ansible_user_dir}}/{{base_download_directory}}/setup_lts.x.sh"
       mode: 0554
   when: (ansible_distribution == "Ubuntu") and (node_install_lts)
 
 - name: Download Node.js LTS Installation Script
   become: no
   get_url:
-      url: "https://rpm.nodesource.com/setup_8.x"
-      dest: "{{ansible_user_dir}}/{{base_download_directory}}/setup_8.x.sh"
+      url: "https://rpm.nodesource.com/setup_{{node_lts_version}}.x"
+      dest: "{{ansible_user_dir}}/{{base_download_directory}}/setup_lts.x.sh"
       mode: 0554
   when: (ansible_distribution == "RedHat") and (node_install_lts)
 
 - name: Install Node.js LTS
   become: yes
-  shell: "{{ansible_user_dir}}/{{base_download_directory}}/setup_8.x.sh"
+  shell: "{{ansible_user_dir}}/{{base_download_directory}}/setup_lts.x.sh"
   args:
       creates: /usr/bin/node
   when: node_install_lts
@@ -25,22 +25,22 @@
 - name: Download Node.js Current Installation Script
   become: no
   get_url:
-      url: "https://deb.nodesource.com/setup_10.x"
-      dest: "{{ansible_user_dir}}/{{base_download_directory}}/setup_10.x.sh"
+      url: "https://deb.nodesource.com/setup_{{node_current_version}}.x"
+      dest: "{{ansible_user_dir}}/{{base_download_directory}}/setup_current.x.sh"
       mode: 0554
   when: (ansible_distribution == "Ubuntu") and (node_install_current)
 
 - name: Download Node.js Current Installation Script
   become: no
   get_url:
-      url: "https://rpm.nodesource.com/setup_10.x"
-      dest: "{{ansible_user_dir}}/{{base_download_directory}}/setup_10.x.sh"
+      url: "https://rpm.nodesource.com/setup_{{node_current_version}}.x"
+      dest: "{{ansible_user_dir}}/{{base_download_directory}}/setup_current.x.sh"
       mode: 0554
   when: (ansible_distribution == "RedHat") and (node_install_current)
 
 - name: Install Node.js Current
   become: yes
-  shell: "{{ansible_user_dir}}/{{base_download_directory}}/setup_10.x.sh"
+  shell: "{{ansible_user_dir}}/{{base_download_directory}}/setup_current.x.sh"
   args:
       creates: /usr/bin/node
   when: node_install_current
