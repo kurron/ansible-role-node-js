@@ -1,4 +1,4 @@
 ---
-- hosts: remote
+- hosts: localhost
   roles:
-  - role: ../../ansible-role-node-js
+  - role: kurron.node-js

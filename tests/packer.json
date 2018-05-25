@@ -1,0 +1,43 @@
+{
+    "description": "Tesing the Ansible Role",
+    "min_packer_version": "1.1.2",
+
+    "variables": {
+        "ssh_name": "vagrant",
+        "ssh_pass": "vagrant",
+        "hostname": "xenial-server-bare",
+        "version": "5.1.12",
+        "comment": "Upgrade to VirtualBox 5.1.12",
+        "ovf": "Xenial-x64-Server.ova"
+    },
+
+    "builders": [
+        {
+            "type": "docker",
+            "image": "ubuntu:18.04",
+            "commit": true,
+            "changes": []
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline": ["apt-get update && apt-get install --yes python python-pip libxrender1 libxtst6 libxi6 ttf-dejavu && pip install --upgrade ansible"]
+        },
+        {
+            "type": "ansible-local",
+            "playbook_file": "test.yml",
+            "extra_arguments": ["--verbose"],
+            "role_paths": ["/tmp/roles/kurron.base","/tmp/roles/kurron.node-js"]
+        }
+    ],
+    "post-processors": [
+        [
+            {
+                "type": "docker-tag",
+                "repository": "kurron/ansible-role-node-js",
+                "tag": "latest"
+            }
+        ]
+    ]
+}
